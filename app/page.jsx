@@ -33,6 +33,10 @@ export default function Home() {
       </main>
     );
   } else {
-    return <div>logged in {session?.user.email}</div>;
+    return (
+      <div className="bg-blue-900 min-h-screen">
+        <div>logged in with {session?.user.email}</div>
+      </div>
+    );
   }
 }
