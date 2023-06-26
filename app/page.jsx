@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { signIn, getProviders, signOut, useSession } from "next-auth/react";
+import NavLayout from "../components/NavLayout";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -33,10 +34,6 @@ export default function Home() {
       </main>
     );
   } else {
-    return (
-      <div className="bg-blue-900 min-h-screen">
-        <div>logged in with {session?.user.email}</div>
-      </div>
-    );
+    return <NavLayout>k</NavLayout>;
   }
 }

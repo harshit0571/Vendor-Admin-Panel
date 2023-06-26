@@ -2,6 +2,8 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import Provider from "@/components/Provider";
 import { Root } from "postcss";
+import { useSession } from "next-auth/react";
+import Navigation from "@/components/Navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
