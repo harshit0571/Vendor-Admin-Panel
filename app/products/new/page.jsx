@@ -1,20 +1,34 @@
 "use client";
 import NavLayout from "@/components/NavLayout";
 import axios from "axios";
+import { useSession } from "next-auth/react";
+import { Titan_One } from "next/font/google";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const NewProduct = () => {
   const [Title, setTitle] = useState("");
   const [Description, setDescription] = useState("");
   const [Price, setPrice] = useState("");
-
+  const { data: session } = useSession();
+  const router = useRouter();
   const createProduct = async (e) => {
     e.preventDefault();
-    const data = { Title, Description, Price };
-    await axios.post("/api/products", data, {
-      "Content-Type": "application/json",
+    const response = await fetch("/api/products", {
+      method: "POST",
+      body: JSON.stringify({
+        title: Title,
+        description: Description,
+        price: Price,
+        owner: session?.user.id,
+      }),
     });
+    if (response.ok) {
+      console.log("d");
+      router.push("/products");
+    }
   };
+
   return (
     <NavLayout>
       <h1>New Product</h1>
