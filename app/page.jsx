@@ -14,30 +14,25 @@ export default function Home() {
     };
     getP();
   }, []);
-
-  return (
-    <main className="bg-blue-900 w-screen h-screen flex flex-col justify-center items-center gap-10">
-      {Providers &&
-        Object.values(Providers).map((provider) => (
-          <div key={provider.name}>
-            <button
-              className="bg-white text-blue-600 p-2 px-4 transition-colors shadow-white text-lg rounded-md hover:bg-blue-400 hover:text-white"
-              onClick={() => {
-                signIn(provider.id);
-              }}
-            >
-              Login With {provider.name}
-            </button>
-          </div>
-        ))}
-    </main>
-  );
-}
-
-{
-  /* <div>
-<button className="bg-white text-black p-2 px-4 transition-colors shadow-white text-lg rounded-md hover:bg-black hover:text-white">
-  Login With Github
-</button>
-</div> */
+  if (!session) {
+    return (
+      <main className="bg-blue-900 w-screen h-screen flex flex-col justify-center items-center gap-10">
+        {Providers &&
+          Object.values(Providers).map((provider) => (
+            <div key={provider.name}>
+              <button
+                className="bg-white text-blue-600 p-2 px-4 transition-colors shadow-white text-lg rounded-md hover:bg-blue-400 hover:text-white"
+                onClick={() => {
+                  signIn(provider.id);
+                }}
+              >
+                Login With {provider.name}
+              </button>
+            </div>
+          ))}
+      </main>
+    );
+  } else {
+    return <div>logged in {session?.user.email}</div>;
+  }
 }
