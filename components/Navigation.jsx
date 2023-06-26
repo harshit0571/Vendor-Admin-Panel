@@ -28,11 +28,8 @@ const Navigation = () => {
         <span className="">Vender Admin</span>
       </Link>
 
-      <nav className="flex flex-col gap-2 mt-2">
-        <Link
-          href="/dashboard"
-          className={pathName === "/" ? activeLink : inActiveLink}
-        >
+      <nav className="flex flex-col gap-4 p-2 mt-2">
+        <Link href="/" className={pathName === "/" ? activeLink : inActiveLink}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

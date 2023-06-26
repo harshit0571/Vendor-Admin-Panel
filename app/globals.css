@@ -25,3 +25,25 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+input,
+textarea {
+  @apply border-gray-300 border-2 rounded-r-md p-2 w-full mb-2;
+}
+
+input:focus,
+textarea:focus {
+  @apply border-blue-800;
+}
+
+h1 {
+  @apply text-blue-900 mb-4 text-xl font-semibold;
+}
+
+label {
+  @apply text-blue-900;
+}
+
+.btn_primary {
+  @apply bg-blue-900 px-4 py-1 rounded-md mt-2 text-white;
+}

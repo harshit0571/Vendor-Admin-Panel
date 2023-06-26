@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { signIn, getProviders, signOut, useSession } from "next-auth/react";
 import NavLayout from "../components/NavLayout";
+import Image from "next/image";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -34,6 +35,18 @@ export default function Home() {
       </main>
     );
   } else {
-    return <NavLayout>k</NavLayout>;
+    return (
+      <NavLayout>
+        <div className="text-blue-900 flex justify-between">
+          <h2 className="text-lg">
+            Hello, <b>{session?.user.name}</b>
+          </h2>
+          <div className="flex gap-1 bg-gray-200 p-2 rounded-md text-black">
+            <Image src={session?.user.image} width={30} height={30} />
+            {session?.user.name}
+          </div>
+        </div>
+      </NavLayout>
+    );
   }
 }
