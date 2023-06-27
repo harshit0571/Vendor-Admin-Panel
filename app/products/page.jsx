@@ -2,7 +2,7 @@
 import NavLayout from "@/components/NavLayout";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Product = () => {
@@ -13,6 +13,7 @@ const Product = () => {
     const getProducts = async () => {
       const response = await fetch(`/api/user/${session?.user.id}/products`, {
         method: "GET",
+        cache: "no-store",
       });
       const data = await response.json();
       console.log(data);
@@ -46,12 +47,19 @@ const Product = () => {
           {Products.map((Product) => (
             <tr>
               <td>{Product.title}</td>
-              <td>
+              <td className="flex gap-5">
                 <Link
                   href={`products/${Product._id}`}
                   className="px-4 py-2 bg-blue-700 text-white rounded-lg"
                 >
                   edit
+                </Link>
+
+                <Link
+                  href={`products/delete/${Product._id}`}
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg"
+                >
+                  delete
                 </Link>
               </td>
             </tr>

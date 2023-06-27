@@ -1,10 +1,11 @@
 "use client";
 import NavLayout from "@/components/NavLayout";
 import ProductForm from "@/components/ProductForm";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Product_Edit = () => {
+  const router = useRouter();
   const params = useParams();
   const id = params.id;
   console.log(id);
@@ -29,8 +30,16 @@ const Product_Edit = () => {
     getProduct();
   }, []);
 
-  const editProduct = () => {
-    alert("d");
+  const editProduct = async (e) => {
+    e.preventDefault();
+    const response = await fetch(`/api/products/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(Post),
+    });
+    await response.json();
+    if (response.ok) {
+      router.push("/products");
+    }
   };
 
   return (
