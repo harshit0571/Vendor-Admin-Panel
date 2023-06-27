@@ -5,11 +5,16 @@ import { useSession } from "next-auth/react";
 import { Titan_One } from "next/font/google";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import ProductForm from "@/components/ProductForm";
 
 const NewProduct = () => {
-  const [Title, setTitle] = useState("");
-  const [Description, setDescription] = useState("");
-  const [Price, setPrice] = useState("");
+  const [Post, setPost] = useState({
+    _id: "",
+    title: "ee",
+    description: "",
+    price: "",
+    owner: "",
+  });
   const { data: session } = useSession();
   const router = useRouter();
   const createProduct = async (e) => {
@@ -17,9 +22,9 @@ const NewProduct = () => {
     const response = await fetch("/api/products", {
       method: "POST",
       body: JSON.stringify({
-        title: Title,
-        description: Description,
-        price: Price,
+        title: Post.title,
+        description: Post.Description,
+        price: Post.Price,
         owner: session?.user.id,
       }),
     });
@@ -31,38 +36,12 @@ const NewProduct = () => {
 
   return (
     <NavLayout>
-      <h1>New Product</h1>
-      <form onSubmit={createProduct}>
-        <label>Product Name:</label>
-        <input
-          type="text"
-          placeholder="product name"
-          value={Title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
-        />
-        <label>Product Description:</label>
-        <textarea
-          placeholder="description"
-          value={Description}
-          onChange={(e) => {
-            setDescription(e.target.value);
-          }}
-        ></textarea>
-        <label>Product Price:</label>
-        <input
-          placeholder="price"
-          value={Price}
-          onChange={(e) => {
-            setPrice(e.target.value);
-          }}
-        />
-
-        <button type="submit" className="btn_primary">
-          Save
-        </button>
-      </form>
+      <ProductForm
+        Name="New"
+        Post={Post}
+        onSubmit={createProduct}
+        setPost={setPost}
+      />
     </NavLayout>
   );
 };
