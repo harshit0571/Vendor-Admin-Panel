@@ -10,10 +10,11 @@ import ProductForm from "@/components/ProductForm";
 const NewProduct = () => {
   const [Post, setPost] = useState({
     _id: "",
-    title: "ee",
+    title: "",
     description: "",
     price: "",
     owner: "",
+    productImages: "",
   });
   const { data: session } = useSession();
   const router = useRouter();

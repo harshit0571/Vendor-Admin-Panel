@@ -56,7 +56,7 @@ const Product = () => {
                 </Link>
 
                 <Link
-                  href={`products/delete/${Product._id}`}
+                  href={`products/delete/${Product._id}?name=${Product.title}`}
                   className="px-4 py-2 bg-red-500 text-white rounded-lg"
                 >
                   delete
