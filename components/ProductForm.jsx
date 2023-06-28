@@ -1,16 +1,24 @@
 import axios from "axios";
 
 export const ProductForm = ({ Name, Post, onSubmit, setPost }) => {
-  const uploadImage = async (e) => {
-    const files = e.target.files;
+  const uploadImage = async (ev) => {
+    const data = new FormData();
+    const files = ev.target?.files;
     if (files?.length > 0) {
-      const data = new FormData();
-      for (const File of files) {
-        data.append("file", File);
+      for (const file of files) {
+        data.append("file", file);
+        data.append("upload_preset", "oxb08z5s");
       }
-      const res = await axios.post("api/uploadPhoto", {
-        Headers: { "Content-Type": "multipart/form-data" },
-      });
+      try {
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/dnh8ucfqd/image/upload",
+          data
+        );
+        const data = response.data.url;
+        setPost({ ...Post, imageUrl: data });
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
