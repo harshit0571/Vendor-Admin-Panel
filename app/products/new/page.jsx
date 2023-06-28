@@ -13,19 +13,21 @@ const NewProduct = () => {
     title: "",
     description: "",
     price: "",
+    productImages: [],
     owner: "",
-    productImages: "",
   });
   const { data: session } = useSession();
   const router = useRouter();
   const createProduct = async (e) => {
     e.preventDefault();
+    console.log(Post);
     const response = await fetch("/api/products", {
       method: "POST",
       body: JSON.stringify({
         title: Post.title,
-        description: Post.Description,
-        price: Post.Price,
+        description: Post.description,
+        price: Post.price,
+        productImages: Post.productImages,
         owner: session?.user.id,
       }),
     });

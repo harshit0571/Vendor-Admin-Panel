@@ -16,7 +16,7 @@ const Product_Edit = () => {
     description: "",
     price: "",
     owner: "",
-    productImages: "",
+    productImages: [],
   });
   useEffect(() => {
     const getProduct = async () => {

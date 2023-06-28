@@ -18,11 +18,12 @@ export const GET = async (req, { params }) => {
 export const PATCH = async (req, { params }) => {
   try {
     await connectToDB();
-    const { title, description, price } = await req.json();
+    const { title, description, price, productImages } = await req.json();
     const toUpdateProduct = await Product.findById(params.id);
     toUpdateProduct.title = title;
     toUpdateProduct.description = description;
     toUpdateProduct.price = price;
+    toUpdateProduct.productImages = productImages;
     toUpdateProduct.save();
     return new Response(JSON.stringify(toUpdateProduct), { status: 201 });
   } catch (error) {

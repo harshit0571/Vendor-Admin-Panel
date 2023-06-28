@@ -14,8 +14,13 @@ export const ProductForm = ({ Name, Post, onSubmit, setPost }) => {
           "https://api.cloudinary.com/v1_1/dnh8ucfqd/image/upload",
           data
         );
-        const data = response.data.url;
-        setPost({ ...Post, imageUrl: data });
+        const UrlArray = Post.productImages;
+        const url = await response.data.url;
+        UrlArray.push(url);
+        console.log(Post.productImages);
+
+        setPost({ ...Post, productImages: UrlArray });
+        console.log(Post);
       } catch (error) {
         console.error(error);
       }

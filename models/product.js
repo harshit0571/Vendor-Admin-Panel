@@ -7,11 +7,15 @@ const ProductSchema = new Schema({
     type: Number,
     require: [true, "required"],
   },
+  productImages: {
+    type: [String],
+    require: [true, "required"],
+  },
   owner: {
     type: Schema.Types.ObjectId,
     ref: "User",
   },
 });
 
-const Product = models.Product || model("Product", ProductSchema);
+const Product = models.DevProducts || model("DevProducts", ProductSchema);
 export default Product;
