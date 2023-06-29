@@ -1,30 +1,39 @@
+"use client";
 import axios from "axios";
+import Image from "next/image";
+import { useState } from "react";
+import { BounceLoader } from "react-spinners";
+import { ReactSortable } from "react-sortablejs";
 
 export const ProductForm = ({ Name, Post, onSubmit, setPost }) => {
+  const [isUploading, setisUploading] = useState(false);
   const uploadImage = async (ev) => {
+    setisUploading(true);
     const data = new FormData();
     const files = ev.target?.files;
     if (files?.length > 0) {
       for (const file of files) {
         data.append("file", file);
-        data.append("upload_preset", "oxb08z5s");
+        data.append("upload_preset", "i9jfldyo");
       }
       try {
         const response = await axios.post(
-          "https://api.cloudinary.com/v1_1/dnh8ucfqd/image/upload",
+          "https://api.cloudinary.com/v1_1/dczuwzqm8/image/upload",
           data
         );
         const UrlArray = Post.productImages;
         const url = await response.data.url;
         UrlArray.push(url);
-        console.log(Post.productImages);
-
         setPost({ ...Post, productImages: UrlArray });
         console.log(Post);
+        setisUploading(false);
       } catch (error) {
         console.error(error);
       }
     }
+  };
+  const setImageOrder = () => {
+    console.log("d");
   };
 
   return (
@@ -41,16 +50,30 @@ export const ProductForm = ({ Name, Post, onSubmit, setPost }) => {
           }}
         />
         <label>Photos:</label>
-        <div className="mb-2 mt-2">
+        <div className="mb-2 mt-2 flex flex-wrap gap-2">
+          <ReactSortable list={Post.productImages} setList={setImageOrder}>
+            {Post.productImages.length > 0 &&
+              Post.productImages.map((link) => (
+                <div key={link} className="inline-block cursor-pointer">
+                  <Image
+                    src={link}
+                    width={100}
+                    height={100}
+                    className="rounded-lg"
+                  />
+                </div>
+              ))}
+          </ReactSortable>
+          {isUploading && (
+            <div className="w-24 h-24 border bg-gray-200 rounded-lg justify-center items-center cursor-pointer flex">
+              <BounceLoader color="#0047ff" />
+            </div>
+          )}
           <label className="w-24 h-24 border bg-gray-200 rounded-lg justify-center items-center cursor-pointer flex">
             upload
             <input type="file" className="hidden" onChange={uploadImage} />
           </label>
-          {Post.productImages ? (
-            <div>ff</div>
-          ) : (
-            <div>No photos in this product</div>
-          )}
+          {!Post.productImages && <div>No photos in this product</div>}
         </div>
         <label>Product Description:</label>
         <textarea
