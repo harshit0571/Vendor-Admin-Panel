@@ -33,7 +33,7 @@ export const ProductForm = ({ Name, Post, onSubmit, setPost }) => {
     }
   };
   const setImageOrder = () => {
-    console.log("d");
+    console.log("images");
   };
 
   return (
