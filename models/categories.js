@@ -10,7 +10,8 @@ const CategorySchema = new Schema({
     ref: "Category",
     require: true,
   },
+  properties: [{ type: Object }],
 });
 
-const Category = models.Category || model("Category", CategorySchema);
+const Category = models.CategoryS || model("CategoryS", CategorySchema);
 export default Category;

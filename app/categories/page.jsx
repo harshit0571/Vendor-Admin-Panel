@@ -11,20 +11,26 @@ const Categories = () => {
   const [Parent, setParent] = useState(null);
   const [properties, setProperties] = useState([]);
   const saveCategory = async (e) => {
+    e.preventDefault();
+    const data = {
+      input: Input,
+      Parent,
+      properties: properties.map((p) => ({
+        name: p.name,
+        values: p.values.split(","),
+      })),
+      _id: Id,
+    };
     if (EditCategory) {
-      e.preventDefault();
-      await axios.put("/api/categories", {
-        input: Input,
-        parent: Parent,
-        _id: Id,
-      });
+      await axios.put("/api/categories", data);
       setEditCategory(null);
       setInput("");
+      setProperties([]);
     } else {
       console.log("e");
-      e.preventDefault();
-      await axios.post("/api/categories", { input: Input, parent: Parent });
+      await axios.post("/api/categories", data);
       setInput("");
+      setProperties([]);
     }
   };
   const editCategory = async (category) => {
@@ -32,6 +38,12 @@ const Categories = () => {
     setInput(category.name);
     setParent(category.parent?._id);
     setId(category._id);
+    setProperties(
+      category.properties.map(({ name, values }) => ({
+        name,
+        values: values.join(","),
+      }))
+    );
   };
 
   function addProperty() {
@@ -60,6 +72,16 @@ const Categories = () => {
       });
     });
   }
+  const deleteFunc = async (e) => {
+    e.preventDefault();
+    console.log(Id);
+    await axios.delete(`/api/categories/${Id}`);
+  };
+  const deleteCategory = (category) => {
+    setId(category._id);
+
+    deleteFunc();
+  };
   useEffect(() => {
     const getCategories = async () => {
       Response = await fetch("/api/categories");
@@ -147,7 +169,7 @@ const Categories = () => {
             </tr>
           </thead>
           <tbody>
-            {categories?.length &&
+            {categories?.length > 0 &&
               categories.map((category) =>
                 category ? (
                   <tr key={category._id}>
@@ -162,7 +184,14 @@ const Categories = () => {
                       >
                         Edit
                       </button>
-                      <button className="btn_primary">Delete</button>
+                      <button
+                        className="btn_primary"
+                        onClick={() => {
+                          deleteCategory(category);
+                        }}
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ) : null

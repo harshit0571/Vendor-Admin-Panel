@@ -4,8 +4,13 @@ import { connectToDB } from "@/utils/database";
 export const POST = async (req) => {
   try {
     await connectToDB();
-    const { input, parent } = await req.json();
-    await Category.create({ name: input, parent: parent });
+    const { input, parent, properties } = await req.json();
+    await Category.create({
+      name: input,
+      parent: parent,
+      properties: properties,
+    });
+    console.log(properties);
 
     return new Response(JSON.stringify(input), { status: 201 });
   } catch (error) {
@@ -16,10 +21,11 @@ export const POST = async (req) => {
 export const PUT = async (req) => {
   try {
     await connectToDB();
-    const { input, parent, _id } = await req.json();
+    const { input, parent, _id, properties } = await req.json();
     let categoryEdit = await Category.findById(_id);
     categoryEdit.name = input;
     categoryEdit.parent = parent;
+    categoryEdit.properties = properties;
     await categoryEdit.save();
     return new Response(JSON.stringify(_id), { status: 201 });
   } catch (error) {
