@@ -13,6 +13,20 @@ export const POST = async (req) => {
     return new Response({ status: 500 });
   }
 };
+export const PUT = async (req) => {
+  try {
+    await connectToDB();
+    const { input, parent, _id } = await req.json();
+    let categoryEdit = await Category.findById(_id);
+    categoryEdit.name = input;
+    categoryEdit.parent = parent;
+    await categoryEdit.save();
+    return new Response(JSON.stringify(_id), { status: 201 });
+  } catch (error) {
+    console.log(error);
+    return new Response({ status: 500 });
+  }
+};
 
 export const GET = async () => {
   try {
